@@ -8,34 +8,34 @@ from galleryHub_api.serializer import PictureSerializer
 @api_view(['GET'])
 def pictureList(request):
     pictures = Picture.objects.all()
-    mappedPictureList = PictureSerializer(pictures, many = True )
-    return Response(mappedPictureList.data)
+    serializer = PictureSerializer(pictures, many = True )
+    return Response(serializer.data)
 
 
 @api_view(['POST'])
 def picture_upload(request):
-    mappedPictureUpload = PictureSerializer(data = request.data)
-    if mappedPictureUpload.is_valid():
-        mappedPictureUpload.save()
-        return Response(mappedPictureUpload.data)
+    serializer = PictureSerializer(data = request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
     else:
-        return Response(mappedPictureUpload.errors)
+        return Response(serializer.errors)
 
 @api_view(['GET','PUT','DELETE'])
 def picture_detail(request, pk):
     picture = Picture.objects.get(pk=pk)
     if request.method == "GET":
-        mappedPicture = PictureSerializer(picture)
-        return Response(mappedPicture.data)
+        serializer = PictureSerializer(picture)
+        return Response(serializer.data)
     if request.method == "PUT":
-        modifyPicture = PictureSerializer(picture,request.data)
-        if modifyPicture.is_valid():
-            modifyPicture.save()
-            return Response(modifyPicture.data)
+        serializer = PictureSerializer(picture,request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
         else:
-            return Response(modifyPicture.errors)
+            return Response(serializer.errors)
     if request.method == "DELETE":
-        deletePicture = PictureSerializer(picture)
-        if modifyPicture.is_valid():
-            deletePicture.save()
-            return Response(deletePicture.data)    
+        picture.delete()
+
+        
+        return Response({"deleted":True})    

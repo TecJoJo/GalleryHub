@@ -8,3 +8,13 @@ class PictureSerializer(serializers.Serializer):
 
     def create(self,data):
         return Picture.objects.create(**data)
+    
+    def update(self,instance,data):
+        instance.title = data.get("title",instance.title)
+        instance.description = data.get("description",instance.description)
+        instance.publish_date = data.get("publish_date",instance.publish_date)
+
+        instance.save()
+        return instance 
+    
+    
