@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from galleryHub_api.models import Picture
 from galleryHub_api.serializer import PictureSerializer
+
 # Create your views here.
 
 @api_view(['GET'])
